@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/sakai-akinobu/igata/issues"
   },
-  "homepage": "https://github.com/sakai-akinobu/igata#readme"
+  "homepage": "https://github.com/sakai-akinobu/igata#readme",
+  "devDependencies": {
+    "eslint": "^5.6.0"
+  }
 }
