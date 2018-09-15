@@ -13,6 +13,7 @@ export type JSONSchema = {
   $schema?: string,
   type?: JSONSchemaType,
   items?: JSONSchema[],
+  properties?: {[string]: JSONSchema},
 };
 
 type IntermediateSchemaType =
@@ -29,4 +30,5 @@ export type IntermediateSchema = {|
   id: string,
   type: IntermediateSchemaType,
   items: IntermediateSchema[],
+  properties: {[string]: IntermediateSchema},
 |};
