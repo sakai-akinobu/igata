@@ -5,7 +5,10 @@ import type {
 } from './types';
 
 function compile(jsonSchema: JSONSchema): IntermediateSchema {
-  return {$id: jsonSchema.$id};
+  return {
+    id: jsonSchema.$id || '',
+    type: jsonSchema.type || 'any',
+  };
 }
 
 export default compile;
