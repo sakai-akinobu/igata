@@ -3,4 +3,11 @@ module.exports = {
     '@babel/preset-env',
     '@babel/preset-flow',
   ],
+  env: {
+    test: {
+      presets: [
+        'power-assert',
+      ],
+    },
+  },
 };
