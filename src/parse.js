@@ -31,7 +31,10 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
     return types.stringTypeAnnotation();
   }
   if (intermediateSchema.type === 'array') {
-    return types.tupleTypeAnnotation(intermediateSchema.items.map(item => toFlowType(item)));
+    if (intermediateSchema.itemType) {
+      return types.arrayTypeAnnotation(toFlowType(intermediateSchema.itemType));
+    }
+    return types.tupleTypeAnnotation(intermediateSchema.itemTypes.map(item => toFlowType(item)));
   }
   if (intermediateSchema.type === 'object') {
     return types.objectTypeAnnotation(Object.keys(intermediateSchema.properties).map(key => {

@@ -42,6 +42,10 @@ describe('transform', function() {
         const schema = {$id: 'Id', type: 'array', items: [{type: 'string'}, {type: 'number'}]};
         assert.strictEqual(transform(schema), 'export type Id = [string, number];');
       });
+      it('string[]', function() {
+        const schema = {$id: 'Id', type: 'array', items: {type: 'string'}};
+        assert.strictEqual(transform(schema), 'export type Id = string[];');
+      });
     });
     describe('object', function() {
       it('{}', function() {

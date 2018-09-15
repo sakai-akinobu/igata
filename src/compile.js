@@ -5,7 +5,12 @@ import type {
 } from './types';
 
 function compile(jsonSchema: JSONSchema): IntermediateSchema {
-  const items = (jsonSchema.items || []).map(item => compile(item));
+  let itemTypes = [], itemType = null;
+  if (Array.isArray(jsonSchema.items)) {
+    itemTypes = (jsonSchema.items || []).map(item => compile(item));
+  } else if (typeof jsonSchema.items === 'object') {
+    itemType = compile(jsonSchema.items);
+  }
   const properties = Object.keys((jsonSchema.properties || {})).reduce((props, key) => {
     props[key] = compile((jsonSchema.properties || {})[key]);
     return props;
@@ -14,7 +19,8 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
   return {
     id: jsonSchema.$id || '',
     type: jsonSchema.type || 'any',
-    items,
+    itemType,
+    itemTypes,
     properties,
     required: jsonSchema.required || [],
     additionalProperties,
