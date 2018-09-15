@@ -37,6 +37,7 @@
     "eslint-plugin-import": "^2.14.0",
     "flow-bin": "^0.81.0",
     "mocha": "^5.2.0",
-    "power-assert": "^1.6.1"
+    "power-assert": "^1.6.1",
+    "pre-commit": "^1.2.2"
   }
 }
