@@ -30,6 +30,9 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
   if (intermediateSchema.type === 'string') {
     return types.stringTypeAnnotation();
   }
+  if (intermediateSchema.type === 'array') {
+    return types.tupleTypeAnnotation(intermediateSchema.items.map(item => toFlowType(item)));
+  }
   throw new TypeError(`An unexpected type was found. type: ${intermediateSchema.type}`);
 }
 

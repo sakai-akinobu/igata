@@ -12,6 +12,7 @@ export type JSONSchema = {
   $id?: string,
   $schema?: string,
   type?: JSONSchemaType,
+  items?: JSONSchema[],
 };
 
 type IntermediateSchemaType =
@@ -24,7 +25,8 @@ type IntermediateSchemaType =
   | 'object'
   ;
 
-export type IntermediateSchema = {
+export type IntermediateSchema = {|
   id: string,
   type: IntermediateSchemaType,
-};
+  items: IntermediateSchema[],
+|};

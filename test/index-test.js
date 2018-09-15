@@ -29,5 +29,19 @@ describe('transform', function() {
         assert.strictEqual(transform(schema), 'export type Id = string;');
       });
     });
+    describe('array', function() {
+      it('[]', function() {
+        const schema = {$id: 'Id', type: 'array', items: []};
+        assert.strictEqual(transform(schema), 'export type Id = [];');
+      });
+      it('[string]', function() {
+        const schema = {$id: 'Id', type: 'array', items: [{type: 'string'}]};
+        assert.strictEqual(transform(schema), 'export type Id = [string];');
+      });
+      it('[string, number]', function() {
+        const schema = {$id: 'Id', type: 'array', items: [{type: 'string'}, {type: 'number'}]};
+        assert.strictEqual(transform(schema), 'export type Id = [string, number];');
+      });
+    });
   });
 });
