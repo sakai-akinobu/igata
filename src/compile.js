@@ -16,6 +16,7 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
     type: jsonSchema.type || 'any',
     items,
     properties,
+    required: jsonSchema.required || [],
     additionalProperties,
   };
 }

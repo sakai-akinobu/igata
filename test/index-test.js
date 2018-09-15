@@ -48,24 +48,31 @@ describe('transform', function() {
         const schema = {$id: 'Id', type: 'object', properties: {}};
         assert.strictEqual(transform(schema), 'export type Id = {};');
       });
-      it('{foo: string}', function() {
+      it('{foo?: string}', function() {
         const schema = {$id: 'Id', type: 'object', properties: {
           foo: {type: 'string'},
         }};
-        assert.strictEqual(transform(schema), 'export type Id = {\n  foo: string\n};');
+        assert.strictEqual(transform(schema), 'export type Id = {\n  foo?: string\n};');
+      });
+      it('{foo?: string, bar?: number}', function() {
+        const schema = {$id: 'Id', type: 'object', properties: {
+          foo: {type: 'string'},
+          bar: {type: 'number'},
+        }};
+        assert.strictEqual(transform(schema), 'export type Id = {\n  foo?: string,\n  bar?: number,\n};');
       });
       it('{foo: string, bar: number}', function() {
         const schema = {$id: 'Id', type: 'object', properties: {
           foo: {type: 'string'},
           bar: {type: 'number'},
-        }};
-        assert.strictEqual(transform(schema), 'export type Id = {\n  foo: string,\n  bar: number,\n};');
+        }, required: ['foo']};
+        assert.strictEqual(transform(schema), 'export type Id = {\n  foo: string,\n  bar?: number,\n};');
       });
-      it('{|foo: string|}', function() {
+      it('{|foo?: string|}', function() {
         const schema = {$id: 'Id', type: 'object', properties: {
           foo: {type: 'string'},
         }, additionalProperties: false};
-        assert.strictEqual(transform(schema), 'export type Id = {|\n  foo: string\n|};');
+        assert.strictEqual(transform(schema), 'export type Id = {|\n  foo?: string\n|};');
       });
     });
   });

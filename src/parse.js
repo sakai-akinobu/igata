@@ -35,10 +35,14 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
   }
   if (intermediateSchema.type === 'object') {
     return types.objectTypeAnnotation(Object.keys(intermediateSchema.properties).map(key => {
-      return types.objectTypeProperty(
+      const ast = types.objectTypeProperty(
         types.identifier(key),
         toFlowType(intermediateSchema.properties[key])
       );
+      if (!intermediateSchema.required.includes(key)) {
+        Object.assign(ast, {optional: true});
+      }
+      return ast;
     }), null, null, null, !intermediateSchema.additionalProperties);
   }
   throw new TypeError(`An unexpected type was found. type: ${intermediateSchema.type}`);
