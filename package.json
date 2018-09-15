@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/sakai-akinobu/igata#readme",
   "devDependencies": {
-    "eslint": "^5.6.0"
+    "eslint": "^5.6.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }
