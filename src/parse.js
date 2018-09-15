@@ -15,20 +15,10 @@ function parse(intermediateSchema: IntermediateSchema): Object {
 }
 
 function toFlowType(intermediateSchema: IntermediateSchema): Object {
-  if (intermediateSchema.type === 'any') {
-    return types.anyTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'null') {
-    return types.nullLiteralTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'boolean') {
-    return types.booleanTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'number') {
-    return types.numberTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'string') {
-    return types.stringTypeAnnotation();
+  if (intermediateSchema.enum.length) {
+    return types.unionTypeAnnotation(intermediateSchema.enum.map(e => {
+      return types.genericTypeAnnotation(types.identifier(JSON.stringify(e)));
+    }));
   }
   if (intermediateSchema.type === 'array') {
     if (intermediateSchema.itemType) {
@@ -47,6 +37,21 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
       }
       return ast;
     }), null, null, null, !intermediateSchema.additionalProperties);
+  }
+  if (intermediateSchema.type === 'null') {
+    return types.nullLiteralTypeAnnotation();
+  }
+  if (intermediateSchema.type === 'boolean') {
+    return types.booleanTypeAnnotation();
+  }
+  if (intermediateSchema.type === 'number') {
+    return types.numberTypeAnnotation();
+  }
+  if (intermediateSchema.type === 'string') {
+    return types.stringTypeAnnotation();
+  }
+  if (intermediateSchema.type === 'any') {
+    return types.anyTypeAnnotation();
   }
   throw new TypeError(`An unexpected type was found. type: ${intermediateSchema.type}`);
 }

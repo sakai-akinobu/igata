@@ -19,6 +19,7 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
   return {
     id: jsonSchema.$id || '',
     type: jsonSchema.type || 'any',
+    enum: jsonSchema.enum || [],
     itemType,
     itemTypes,
     properties,

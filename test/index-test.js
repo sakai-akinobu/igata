@@ -116,4 +116,22 @@ describe('transform', function() {
       });
     });
   });
+  describe('enum', function() {
+    it('1 | 2', function() {
+      const schema = {$id: 'Id', enum: [1, 2]};
+      assert.strictEqual(transform(schema), 'export type Id = 1 | 2;');
+    });
+    it('"a" | 1', function() {
+      const schema = {$id: 'Id', enum: ['a', 1]};
+      assert.strictEqual(transform(schema), 'export type Id = "a" | 1;');
+    });
+    it('{"a":1} | ["b",2]', function() {
+      const schema = {$id: 'Id', enum: [{a: 1}, ['b', 2]]};
+      assert.strictEqual(transform(schema), 'export type Id = {"a":1} | ["b",2];');
+    });
+    it('1', function() {
+      const schema = {$id: 'Id', enum: [1]};
+      assert.strictEqual(transform(schema), 'export type Id = 1;');
+    });
+  });
 });
