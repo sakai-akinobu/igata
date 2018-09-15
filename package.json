@@ -4,6 +4,7 @@
   "description": "Transform JSON Schema to Flow type",
   "main": "index.js",
   "scripts": {
+    "flow": "$(npm bin)/flow",
     "lint": "$(npm bin)/eslint src/*.js src/**/*.js",
     "lint:fix": "$(npm bin)/eslint --fix src/*.js src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
