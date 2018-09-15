@@ -39,7 +39,7 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
         types.identifier(key),
         toFlowType(intermediateSchema.properties[key])
       );
-    }));
+    }), null, null, null, !intermediateSchema.additionalProperties);
   }
   throw new TypeError(`An unexpected type was found. type: ${intermediateSchema.type}`);
 }

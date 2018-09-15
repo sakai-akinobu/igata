@@ -61,6 +61,12 @@ describe('transform', function() {
         }};
         assert.strictEqual(transform(schema), 'export type Id = {\n  foo: string,\n  bar: number,\n};');
       });
+      it('{|foo: string|}', function() {
+        const schema = {$id: 'Id', type: 'object', properties: {
+          foo: {type: 'string'},
+        }, additionalProperties: false};
+        assert.strictEqual(transform(schema), 'export type Id = {|\n  foo: string\n|};');
+      });
     });
   });
 });

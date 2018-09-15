@@ -14,6 +14,7 @@ export type JSONSchema = {
   type?: JSONSchemaType,
   items?: JSONSchema[],
   properties?: {[string]: JSONSchema},
+  additionalProperties?: boolean,
 };
 
 type IntermediateSchemaType =
@@ -31,4 +32,5 @@ export type IntermediateSchema = {|
   type: IntermediateSchemaType,
   items: IntermediateSchema[],
   properties: {[string]: IntermediateSchema},
+  additionalProperties: boolean,
 |};

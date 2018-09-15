@@ -10,11 +10,13 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
     props[key] = compile((jsonSchema.properties || {})[key]);
     return props;
   }, {});
+  const additionalProperties = typeof jsonSchema.additionalProperties === 'undefined' ? true : Boolean(jsonSchema.additionalProperties);
   return {
     id: jsonSchema.$id || '',
     type: jsonSchema.type || 'any',
     items,
     properties,
+    additionalProperties,
   };
 }
 
