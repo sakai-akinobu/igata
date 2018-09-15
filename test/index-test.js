@@ -79,5 +79,41 @@ describe('transform', function() {
         assert.strictEqual(transform(schema), 'export type Id = {|\n  foo?: string\n|};');
       });
     });
+    describe('complex types', function() {
+      it('nested object', function() {
+        const schema = {$id: 'Id', type: 'object', properties: {
+          foo: {
+            type: 'object',
+            properties: {
+              bar: {type: 'string'},
+            },
+          },
+        }};
+        assert.strictEqual(transform(schema), 'export type Id = {\n  foo?: {\n    bar?: string\n  }\n};');
+      });
+      it('array in object', function() {
+        const schema = {$id: 'Id', type: 'object', properties: {
+          foo: {
+            type: 'array',
+            items: [
+              {type: 'string'},
+              {type: 'number'},
+            ],
+          },
+        }};
+        assert.strictEqual(transform(schema), 'export type Id = {\n  foo?: [string, number]\n};');
+      });
+      it('object in array', function() {
+        const schema = {$id: 'Id', type: 'array', items: [
+          {
+            type: 'object',
+            properties: {
+              foo: {type: 'string'},
+            },
+          },
+        ]};
+        assert.strictEqual(transform(schema), 'export type Id = [{\n  foo?: string\n}];');
+      });
+    });
   });
 });
