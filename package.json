@@ -44,5 +44,9 @@
     "lint",
     "flow",
     "test"
-  ]
+  ],
+  "dependencies": {
+    "@babel/generator": "^7.0.0",
+    "@babel/types": "^7.0.0"
+  }
 }
