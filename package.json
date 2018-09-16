@@ -2,8 +2,9 @@
   "name": "igata",
   "version": "1.0.0",
   "description": "Converts a JSON Schema to Flow type definition",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "build": "$(npm bin)/rollup -c",
     "flow": "$(npm bin)/flow",
     "lint": "$(npm bin)/eslint src/*.js src/**/*.js",
     "lint:fix": "$(npm bin)/eslint --fix src/*.js src/**/*.js",
@@ -52,6 +53,7 @@
   ],
   "dependencies": {
     "@babel/generator": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
     "@babel/types": "^7.0.0"
   }
 }

@@ -17,5 +17,3 @@ export function convert(jsonSchema: JSONSchema): string {
   const ast = parse(intermediateSchema);
   return generate(ast).code;
 }
-
-export default {convert};
