@@ -150,4 +150,20 @@ describe('convert', function() {
       assert.strictEqual(convert(schema), 'export type Id = {|\n  foo?: string\n|} | number[];');
     });
   });
+  describe('oneOf', function() {
+    it('{foo?: string} | {bar?: number}', function() {
+      const schema = {$id: 'Id', oneOf: [
+        {type: 'object', properties: {foo: {type: 'string'}}},
+        {type: 'object', properties: {bar: {type: 'number'}}},
+      ]};
+      assert.strictEqual(convert(schema), 'export type Id = {\n  foo?: string\n} | {\n  bar?: number\n};');
+    });
+    it('{|foo?: string|} | number[]', function() {
+      const schema = {$id: 'Id', oneOf: [
+        {type: 'object', properties: {foo: {type: 'string'}}, additionalProperties: false},
+        {type: 'array', items: {type: 'number'}},
+      ]};
+      assert.strictEqual(convert(schema), 'export type Id = {|\n  foo?: string\n|} | number[];');
+    });
+  });
 });

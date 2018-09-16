@@ -21,7 +21,10 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
     }));
   }
   if (intermediateSchema.anyOf.length) {
-    return types.unionTypeAnnotation(intermediateSchema.anyOf.map(any => toFlowType(any)));
+    return types.unionTypeAnnotation(intermediateSchema.anyOf.map(schema => toFlowType(schema)));
+  }
+  if (intermediateSchema.oneOf.length) {
+    return types.unionTypeAnnotation(intermediateSchema.oneOf.map(schema => toFlowType(schema)));
   }
   if (intermediateSchema.type === 'array') {
     if (intermediateSchema.itemType) {
