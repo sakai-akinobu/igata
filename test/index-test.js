@@ -6,6 +6,32 @@ import {describe, it} from 'mocha';
 import {convert} from '../src/index';
 
 describe('convert', function() {
+  describe('invalid argument', function() {
+    it('boolean', function() {
+      // flow-disable-next-line
+      assert.throws(() => convert(true));
+    });
+    it('number', function() {
+      // flow-disable-next-line
+      assert.throws(() => convert(1));
+    });
+    it('string', function() {
+      // flow-disable-next-line
+      assert.throws(() => convert('a'));
+    });
+    it('array', function() {
+      // flow-disable-next-line
+      assert.throws(() => convert([]));
+    });
+    it('null', function() {
+      // flow-disable-next-line
+      assert.throws(() => convert(null));
+    });
+    it('undefined', function() {
+      // flow-disable-next-line
+      assert.throws(() => convert());
+    });
+  });
   it('id', function() {
     const schema = {$id: 'FooId'};
     assert.strictEqual(convert(schema), 'export type FooId = any;');
