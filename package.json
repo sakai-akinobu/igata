@@ -1,6 +1,6 @@
 {
   "name": "igata",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Converts a JSON Schema to Flow type definition",
   "main": "lib/index.js",
   "scripts": {
