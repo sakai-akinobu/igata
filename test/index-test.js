@@ -112,42 +112,6 @@ describe('convert', function() {
         assert.strictEqual(convert(schema), 'export type Id = {|\n  foo?: string\n|};');
       });
     });
-    describe('complex types', function() {
-      it('nested object', function() {
-        const schema = {$id: 'Id', type: 'object', properties: {
-          foo: {
-            type: 'object',
-            properties: {
-              bar: {type: 'string'},
-            },
-          },
-        }};
-        assert.strictEqual(convert(schema), 'export type Id = {\n  foo?: {\n    bar?: string\n  }\n};');
-      });
-      it('array in object', function() {
-        const schema = {$id: 'Id', type: 'object', properties: {
-          foo: {
-            type: 'array',
-            items: [
-              {type: 'string'},
-              {type: 'number'},
-            ],
-          },
-        }};
-        assert.strictEqual(convert(schema), 'export type Id = {\n  foo?: [string, number]\n};');
-      });
-      it('object in array', function() {
-        const schema = {$id: 'Id', type: 'array', items: [
-          {
-            type: 'object',
-            properties: {
-              foo: {type: 'string'},
-            },
-          },
-        ]};
-        assert.strictEqual(convert(schema), 'export type Id = [{\n  foo?: string\n}];');
-      });
-    });
   });
   describe('enum', function() {
     it('1 | 2', function() {
@@ -211,6 +175,110 @@ describe('convert', function() {
         {type: 'array', items: {type: 'number'}},
       ]};
       assert.strictEqual(convert(schema), 'export type Id = {|\n  foo?: string\n|} | number[];');
+    });
+  });
+  describe('complex types', function() {
+    it('nested object', function() {
+      const schema = {$id: 'Id', type: 'object', properties: {
+        foo: {
+          type: 'object',
+          properties: {
+            bar: {type: 'string'},
+          },
+        },
+      }};
+      assert.strictEqual(convert(schema), 'export type Id = {\n  foo?: {\n    bar?: string\n  }\n};');
+    });
+    it('array in object', function() {
+      const schema = {$id: 'Id', type: 'object', properties: {
+        foo: {
+          type: 'array',
+          items: [
+            {type: 'string'},
+            {type: 'number'},
+          ],
+        },
+      }};
+      assert.strictEqual(convert(schema), 'export type Id = {\n  foo?: [string, number]\n};');
+    });
+    it('object in array', function() {
+      const schema = {$id: 'Id', type: 'array', items: [
+        {
+          type: 'object',
+          properties: {
+            foo: {type: 'string'},
+          },
+        },
+      ]};
+      assert.strictEqual(convert(schema), 'export type Id = [{\n  foo?: string\n}];');
+    });
+    it('too complex...', function() {
+      const schema = {
+        $id: 'Id',
+        type: 'object',
+        properties: {
+          prop1: {
+            type: 'number',
+          },
+          prop2: {
+            enum: ['a', 'b', 1, null],
+          },
+          prop3: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  list: {
+                    type: 'array',
+                    items: [
+                      {
+                        type: 'object',
+                        properties: {
+                          foo: {
+                            'type': 'string',
+                          },
+                        },
+                      },
+                      {
+                        type: 'array',
+                        items: {
+                          type: 'string',
+                        },
+                      },
+                    ],
+                  },
+                  object: {
+                    type: 'object',
+                    properties: {
+                      a: {type: 'boolean'},
+                    },
+                  },
+                },
+                required: [
+                  'list',
+                ],
+                additionalProperties: false,
+              },
+            ],
+          },
+        },
+      };
+      assert.strictEqual(convert(schema),
+        [
+          'export type Id = {',
+          '  prop1?: number,',
+          '  prop2?: "a" | "b" | 1 | null,',
+          '  prop3?: {|',
+          '    list: [{',
+          '      foo?: string',
+          '    }, string[]],',
+          '    object?: {',
+          '      a?: boolean',
+          '    },',
+          '  |},',
+          '};',
+        ].join('\n')
+      );
     });
   });
 });
