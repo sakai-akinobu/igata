@@ -1,6 +1,6 @@
-Igata
----
+# Igata
 
+![npm version](https://img.shields.io/npm/v/igata.svg?style=flat)
 ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 [![CircleCI](https://circleci.com/gh/sakai-akinobu/igata.svg?style=svg)](https://circleci.com/gh/sakai-akinobu/igata)
 
