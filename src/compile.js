@@ -25,6 +25,7 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
     properties,
     required: jsonSchema.required || [],
     additionalProperties,
+    anyOf: (jsonSchema.anyOf || []).map(any => compile(any)),
   };
 }
 

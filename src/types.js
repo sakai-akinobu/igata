@@ -26,6 +26,7 @@ export type JSONSchema = {
   properties?: {[string]: JSONSchema},
   required?: string[],
   additionalProperties?: boolean,
+  anyOf?: JSONSchema[],
 };
 
 type IntermediateSchemaType =
@@ -47,4 +48,5 @@ export type IntermediateSchema = {|
   properties: {[string]: IntermediateSchema},
   required: string[],
   additionalProperties: boolean,
+  anyOf: IntermediateSchema[],
 |};

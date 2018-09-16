@@ -20,6 +20,9 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
       return types.genericTypeAnnotation(types.identifier(JSON.stringify(e)));
     }));
   }
+  if (intermediateSchema.anyOf.length) {
+    return types.unionTypeAnnotation(intermediateSchema.anyOf.map(any => toFlowType(any)));
+  }
   if (intermediateSchema.type === 'array') {
     if (intermediateSchema.itemType) {
       return types.arrayTypeAnnotation(toFlowType(intermediateSchema.itemType));
