@@ -13,7 +13,7 @@ type EnumType =
   | boolean
   | number
   | string
-  | Array<EnumType>
+  | EnumType[]
   | Object
   ;
 

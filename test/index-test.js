@@ -7,34 +7,41 @@ import {convert} from '../src/index';
 
 describe('convert', function() {
   describe('invalid argument', function() {
+    const errorMessage = /Argument must be an object\./;
     it('boolean', function() {
       // flow-disable-next-line
-      assert.throws(() => convert(true));
+      assert.throws(() => convert(true), errorMessage);
     });
     it('number', function() {
       // flow-disable-next-line
-      assert.throws(() => convert(1));
+      assert.throws(() => convert(1), errorMessage);
     });
     it('string', function() {
       // flow-disable-next-line
-      assert.throws(() => convert('a'));
+      assert.throws(() => convert('a'), errorMessage);
     });
     it('array', function() {
       // flow-disable-next-line
-      assert.throws(() => convert([]));
+      assert.throws(() => convert([]), errorMessage);
     });
     it('null', function() {
       // flow-disable-next-line
-      assert.throws(() => convert(null));
+      assert.throws(() => convert(null), errorMessage);
     });
     it('undefined', function() {
       // flow-disable-next-line
-      assert.throws(() => convert());
+      assert.throws(() => convert(), errorMessage);
     });
   });
-  it('id', function() {
-    const schema = {$id: 'FooId'};
-    assert.strictEqual(convert(schema), 'export type FooId = any;');
+  describe('id', function() {
+    it('when given', function() {
+      const schema = {$id: 'FooId'};
+      assert.strictEqual(convert(schema), 'export type FooId = any;');
+    });
+    it('when not given', function() {
+      const schema = {$id: ''};
+      assert.throws(() => convert(schema), /Root JSON Schema required \$id property\./);
+    });
   });
   describe('types', function() {
     describe('primitive types', function() {
