@@ -38,7 +38,12 @@
     "flow-bin": "^0.81.0",
     "mocha": "^5.2.0",
     "power-assert": "^1.6.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^2.0.2"
   },
   "pre-commit": [
     "lint",
