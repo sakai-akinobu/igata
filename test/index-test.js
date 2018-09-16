@@ -135,6 +135,13 @@ describe('convert', function() {
     });
   });
   describe('anyOf', function() {
+    it('string | null', function() {
+      const schema = {$id: 'Id', anyOf: [
+        {type: 'string'},
+        {type: 'null'},
+      ]};
+      assert.strictEqual(convert(schema), 'export type Id = string | null;');
+    });
     it('{foo?: string} | {bar?: number}', function() {
       const schema = {$id: 'Id', anyOf: [
         {type: 'object', properties: {foo: {type: 'string'}}},
@@ -151,6 +158,13 @@ describe('convert', function() {
     });
   });
   describe('oneOf', function() {
+    it('string | null', function() {
+      const schema = {$id: 'Id', oneOf: [
+        {type: 'string'},
+        {type: 'null'},
+      ]};
+      assert.strictEqual(convert(schema), 'export type Id = string | null;');
+    });
     it('{foo?: string} | {bar?: number}', function() {
       const schema = {$id: 'Id', oneOf: [
         {type: 'object', properties: {foo: {type: 'string'}}},
