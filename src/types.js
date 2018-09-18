@@ -1,14 +1,15 @@
 // @flow
-type JSONSchemaType =
+export type JSONSchemaType =
   | 'null'
   | 'boolean'
   | 'number'
+  | 'integer'
   | 'string'
   | 'array'
   | 'object'
   ;
 
-type EnumType =
+export type EnumType =
   | null
   | boolean
   | number
@@ -20,7 +21,7 @@ type EnumType =
 export type JSONSchema = {
   $id?: string,
   $schema?: string,
-  type?: JSONSchemaType,
+  type?: JSONSchemaType | JSONSchemaType[],
   enum?: EnumType[],
   items?: JSONSchema | JSONSchema[],
   properties?: {[string]: JSONSchema},
@@ -30,7 +31,7 @@ export type JSONSchema = {
   oneOf?: JSONSchema[],
 };
 
-type IntermediateSchemaType =
+export type IntermediateSchemaType =
   | 'any'
   | 'null'
   | 'boolean'
@@ -42,7 +43,8 @@ type IntermediateSchemaType =
 
 export type IntermediateSchema = {|
   id: string,
-  type: IntermediateSchemaType,
+  type: ?IntermediateSchemaType,
+  types: IntermediateSchemaType[],
   enum: EnumType[],
   itemType: ?IntermediateSchema,
   itemTypes: IntermediateSchema[],
