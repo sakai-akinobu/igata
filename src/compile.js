@@ -1,8 +1,26 @@
 // @flow
 import type {
   JSONSchema,
+  JSONSchemaType,
   IntermediateSchema,
+  IntermediateSchemaType,
 } from './types';
+
+function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
+  switch (type) {
+  case 'null':
+  case 'boolean':
+  case 'number':
+  case 'string':
+  case 'object':
+  case 'array':
+    return type;
+  case 'integer':
+    return 'number'; // Integer type does not exist in Flow.
+  default:
+    return 'any';
+  }
+}
 
 function compile(jsonSchema: JSONSchema): IntermediateSchema {
   let itemTypes = [], itemType = null;
@@ -18,7 +36,7 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
   const additionalProperties = typeof jsonSchema.additionalProperties === 'undefined' ? true : Boolean(jsonSchema.additionalProperties);
   return {
     id: jsonSchema.$id || '',
-    type: jsonSchema.type || 'any',
+    type: convertToFlowType(jsonSchema.type),
     enum: jsonSchema.enum || [],
     itemType,
     itemTypes,

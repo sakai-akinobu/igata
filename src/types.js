@@ -1,14 +1,15 @@
 // @flow
-type JSONSchemaType =
+export type JSONSchemaType =
   | 'null'
   | 'boolean'
   | 'number'
+  | 'integer'
   | 'string'
   | 'array'
   | 'object'
   ;
 
-type EnumType =
+export type EnumType =
   | null
   | boolean
   | number
@@ -30,7 +31,7 @@ export type JSONSchema = {
   oneOf?: JSONSchema[],
 };
 
-type IntermediateSchemaType =
+export type IntermediateSchemaType =
   | 'any'
   | 'null'
   | 'boolean'

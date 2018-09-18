@@ -57,6 +57,10 @@ describe('convert', function() {
         const schema = {$id: 'Id', type: 'number'};
         assert.strictEqual(convert(schema), 'export type Id = number;');
       });
+      it('integer', function() {
+        const schema = {$id: 'Id', type: 'integer'};
+        assert.strictEqual(convert(schema), 'export type Id = number;');
+      });
       it('string', function() {
         const schema = {$id: 'Id', type: 'string'};
         assert.strictEqual(convert(schema), 'export type Id = string;');
