@@ -23,6 +23,12 @@ function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
 }
 
 function compile(jsonSchema: JSONSchema): IntermediateSchema {
+  let types = [], type = null;
+  if (Array.isArray(jsonSchema.type)) {
+    types = jsonSchema.type.map(type => convertToFlowType(type));
+  } else {
+    type = convertToFlowType(jsonSchema.type);
+  }
   let itemTypes = [], itemType = null;
   if (Array.isArray(jsonSchema.items)) {
     itemTypes = (jsonSchema.items || []).map(item => compile(item));
@@ -36,7 +42,8 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
   const additionalProperties = typeof jsonSchema.additionalProperties === 'undefined' ? true : Boolean(jsonSchema.additionalProperties);
   return {
     id: jsonSchema.$id || '',
-    type: convertToFlowType(jsonSchema.type),
+    type,
+    types,
     enum: jsonSchema.enum || [],
     itemType,
     itemTypes,

@@ -20,6 +20,15 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
       return types.genericTypeAnnotation(types.identifier(JSON.stringify(e)));
     }));
   }
+  if (intermediateSchema.types.length) {
+    return types.unionTypeAnnotation(intermediateSchema.types.map(type => {
+      return toFlowType({
+        ...intermediateSchema,
+        type,
+        types: [],
+      });
+    }));
+  }
   if (intermediateSchema.anyOf.length) {
     return types.unionTypeAnnotation(intermediateSchema.anyOf.map(schema => toFlowType(schema)));
   }
@@ -59,7 +68,7 @@ function toFlowType(intermediateSchema: IntermediateSchema): Object {
   if (intermediateSchema.type === 'any') {
     return types.anyTypeAnnotation();
   }
-  throw new TypeError(`An unexpected type was found. type: ${intermediateSchema.type}`);
+  throw new TypeError(`An unexpected type was found. type: ${String(intermediateSchema.type)}`);
 }
 
 export default parse;

@@ -66,6 +66,20 @@ describe('convert', function() {
         assert.strictEqual(convert(schema), 'export type Id = string;');
       });
     });
+    describe('multiple types', function() {
+      it('number | null', function() {
+        const schema = {$id: 'Id', type: ['number', 'null']};
+        assert.strictEqual(convert(schema), 'export type Id = number | null;');
+      });
+      it('number | {foo?: string}', function() {
+        const schema = {$id: 'Id', type: ['number', 'object'], properties: {foo: {type: 'string'}}};
+        assert.strictEqual(convert(schema), 'export type Id = number | {\n  foo?: string\n};');
+      });
+      it('{foo?: string} | string[]', function() {
+        const schema = {$id: 'Id', type: ['object', 'array'], properties: {foo: {type: 'string'}}, items: {type: 'string'}};
+        assert.strictEqual(convert(schema), 'export type Id = {\n  foo?: string\n} | string[];');
+      });
+    });
     describe('array', function() {
       it('[]', function() {
         const schema = {$id: 'Id', type: 'array', items: []};

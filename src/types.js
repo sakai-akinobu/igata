@@ -21,7 +21,7 @@ export type EnumType =
 export type JSONSchema = {
   $id?: string,
   $schema?: string,
-  type?: JSONSchemaType,
+  type?: JSONSchemaType | JSONSchemaType[],
   enum?: EnumType[],
   items?: JSONSchema | JSONSchema[],
   properties?: {[string]: JSONSchema},
@@ -43,7 +43,8 @@ export type IntermediateSchemaType =
 
 export type IntermediateSchema = {|
   id: string,
-  type: IntermediateSchemaType,
+  type: ?IntermediateSchemaType,
+  types: IntermediateSchemaType[],
   enum: EnumType[],
   itemType: ?IntermediateSchema,
   itemTypes: IntermediateSchema[],
