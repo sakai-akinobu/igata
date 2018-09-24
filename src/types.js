@@ -18,9 +18,15 @@ export type EnumType =
   | Object
   ;
 
+export type JSONSchemaDefinition = {
+  [string]: JSONSchema,
+};
+
 export type JSONSchema = {
   $id?: string,
   $schema?: string,
+  $ref?: string,
+  definitions?: JSONSchemaDefinition,
   type?: JSONSchemaType | JSONSchemaType[],
   enum?: EnumType[],
   items?: JSONSchema | JSONSchema[],

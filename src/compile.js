@@ -2,6 +2,7 @@
 import type {
   JSONSchema,
   JSONSchemaType,
+  JSONSchemaDefinition,
   IntermediateSchema,
   IntermediateSchemaType,
 } from './types';
@@ -22,24 +23,43 @@ function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
   }
 }
 
-function compile(jsonSchema: JSONSchema): IntermediateSchema {
+function getDefinition(definitions: JSONSchemaDefinition, definitionKey: string): ?JSONSchema {
+  return definitions[`${definitionKey.replace('#/definitions/', '')}`];
+}
+
+function compile(jsonSchema: JSONSchema, definitions: JSONSchemaDefinition = {}): IntermediateSchema {
+  if (jsonSchema.$ref) {
+    const definition = getDefinition(definitions, jsonSchema.$ref);
+    if (!definition) {
+      throw new Error(`JSON Schema definition was not found. ${String(jsonSchema.$ref)}`);
+    }
+    return compile({
+      ...jsonSchema,
+      $ref: '',
+      ...definition,
+    }, definitions);
+  }
+
   let types = [], type = null;
   if (Array.isArray(jsonSchema.type)) {
     types = jsonSchema.type.map(type => convertToFlowType(type));
   } else {
     type = convertToFlowType(jsonSchema.type);
   }
+
   let itemTypes = [], itemType = null;
   if (Array.isArray(jsonSchema.items)) {
-    itemTypes = (jsonSchema.items || []).map(item => compile(item));
+    itemTypes = (jsonSchema.items || []).map(item => compile(item, definitions));
   } else if (typeof jsonSchema.items === 'object') {
-    itemType = compile(jsonSchema.items);
+    itemType = compile(jsonSchema.items, definitions);
   }
+
   const properties = Object.keys((jsonSchema.properties || {})).reduce((props, key) => {
-    props[key] = compile((jsonSchema.properties || {})[key]);
+    props[key] = compile((jsonSchema.properties || {})[key], definitions);
     return props;
   }, {});
   const additionalProperties = typeof jsonSchema.additionalProperties === 'undefined' ? true : Boolean(jsonSchema.additionalProperties);
+
   return {
     id: jsonSchema.$id || '',
     type,
@@ -50,8 +70,8 @@ function compile(jsonSchema: JSONSchema): IntermediateSchema {
     properties,
     required: jsonSchema.required || [],
     additionalProperties,
-    anyOf: (jsonSchema.anyOf || []).map(schema => compile(schema)),
-    oneOf: (jsonSchema.oneOf || []).map(schema => compile(schema)),
+    anyOf: (jsonSchema.anyOf || []).map(schema => compile(schema, definitions)),
+    oneOf: (jsonSchema.oneOf || []).map(schema => compile(schema, definitions)),
   };
 }
 

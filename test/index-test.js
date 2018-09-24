@@ -299,4 +299,95 @@ describe('convert', function() {
       );
     });
   });
+  describe('definitions', function() {
+    it('reference from root schema', function() {
+      const schema = {
+        $id: 'Id',
+        $ref: 'def1',
+        definitions: {
+          def1: {
+            type: 'string',
+          },
+        },
+      };
+      assert.strictEqual(convert(schema), 'export type Id = string;');
+    });
+    it('reference from nested object', function() {
+      const schema = {
+        $id: 'Id',
+        type: 'object',
+        properties: {
+          foo: {
+            $ref: '#/definitions/def1',
+          },
+          bar: {
+            type: 'object',
+            properties: {
+              piyo: {
+                $ref: '#/definitions/def2',
+              },
+            },
+          },
+        },
+        definitions: {
+          def1: {
+            type: 'string',
+          },
+          def2: {
+            type: 'object',
+            properties: {
+              prop1: {
+                type: 'number',
+              },
+              prop2: {
+                type: 'array',
+                items: {type: 'string'},
+              },
+            },
+          },
+        },
+      };
+      assert.strictEqual(convert(schema),
+        [
+          'export type Id = {',
+          '  foo?: string,',
+          '  bar?: {',
+          '    piyo?: {',
+          '      prop1?: number,',
+          '      prop2?: string[],',
+          '    }',
+          '  },',
+          '};',
+        ].join('\n')
+      );
+    });
+    it('nested definition', function() {
+      const schema = {
+        $id: 'Id',
+        $ref: '#/definitions/parent',
+        definitions: {
+          parent: {
+            $ref: '#/definitions/child',
+          },
+          child: {
+            type: 'string',
+          },
+        },
+      };
+      assert.strictEqual(convert(schema), 'export type Id = string;');
+    });
+    it('invalid definition name', function() {
+      const schema = {
+        $id: 'Id',
+        $ref: '#/definitions/doNotExist',
+        definitions: {
+          def1: {
+            type: 'string',
+          },
+        },
+      };
+      const errorMessage = /JSON Schema definition was not found. /;
+      assert.throws(() => convert(schema), errorMessage);
+    });
+  });
 });
