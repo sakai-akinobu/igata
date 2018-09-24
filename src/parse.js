@@ -19,6 +19,7 @@ function toFlowType(schema: IntermediateSchema): Object {
     return types.unionTypeAnnotation(schema.anyOf.map(schema => toFlowType(schema)));
   }
   if (schema.oneOf.length) {
+    // Since Flow can't express "oneOf" of JSON Schema, treat it as "Union".
     return types.unionTypeAnnotation(schema.oneOf.map(schema => toFlowType(schema)));
   }
 
