@@ -3,72 +3,75 @@ import type {IntermediateSchema} from './types';
 
 const types = require('@babel/types');
 
-function parse(intermediateSchema: IntermediateSchema): Object {
+function parse(schema: IntermediateSchema): Object {
   return types.exportNamedDeclaration(
     types.typeAlias(
-      types.identifier(intermediateSchema.id),
+      types.identifier(schema.id),
       null,
-      toFlowType(intermediateSchema),
+      toFlowType(schema),
     ),
     [],
   );
 }
 
-function toFlowType(intermediateSchema: IntermediateSchema): Object {
-  if (intermediateSchema.enum.length) {
-    return types.unionTypeAnnotation(intermediateSchema.enum.map(e => {
+function toFlowType(schema: IntermediateSchema): Object {
+  if (schema.anyOf.length) {
+    return types.unionTypeAnnotation(schema.anyOf.map(schema => toFlowType(schema)));
+  }
+  if (schema.oneOf.length) {
+    return types.unionTypeAnnotation(schema.oneOf.map(schema => toFlowType(schema)));
+  }
+
+  if (schema.enum.length) {
+    return types.unionTypeAnnotation(schema.enum.map(e => {
       return types.genericTypeAnnotation(types.identifier(JSON.stringify(e)));
     }));
   }
-  if (intermediateSchema.types.length) {
-    return types.unionTypeAnnotation(intermediateSchema.types.map(type => {
+
+  if (schema.types.length) {
+    return types.unionTypeAnnotation(schema.types.map(type => {
       return toFlowType({
-        ...intermediateSchema,
+        ...schema,
         type,
         types: [],
       });
     }));
   }
-  if (intermediateSchema.anyOf.length) {
-    return types.unionTypeAnnotation(intermediateSchema.anyOf.map(schema => toFlowType(schema)));
-  }
-  if (intermediateSchema.oneOf.length) {
-    return types.unionTypeAnnotation(intermediateSchema.oneOf.map(schema => toFlowType(schema)));
-  }
-  if (intermediateSchema.type === 'array') {
-    if (intermediateSchema.itemType) {
-      return types.arrayTypeAnnotation(toFlowType(intermediateSchema.itemType));
+
+  if (schema.type === 'array') {
+    if (schema.itemType) {
+      return types.arrayTypeAnnotation(toFlowType(schema.itemType));
     }
-    return types.tupleTypeAnnotation(intermediateSchema.itemTypes.map(item => toFlowType(item)));
+    return types.tupleTypeAnnotation(schema.itemTypes.map(item => toFlowType(item)));
   }
-  if (intermediateSchema.type === 'object') {
-    return types.objectTypeAnnotation(Object.keys(intermediateSchema.properties).map(key => {
+
+  if (schema.type === 'object') {
+    return types.objectTypeAnnotation(Object.keys(schema.properties).map(key => {
       const ast = types.objectTypeProperty(
         types.identifier(key),
-        toFlowType(intermediateSchema.properties[key])
+        toFlowType(schema.properties[key])
       );
-      if (!intermediateSchema.required.includes(key)) {
+      if (!schema.required.includes(key)) {
         Object.assign(ast, {optional: true});
       }
       return ast;
-    }), null, null, null, !intermediateSchema.additionalProperties);
+    }), null, null, null, !schema.additionalProperties);
   }
-  if (intermediateSchema.type === 'null') {
+
+  switch (schema.type) {
+  case 'null':
     return types.nullLiteralTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'boolean') {
+  case 'boolean':
     return types.booleanTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'number') {
+  case 'number':
     return types.numberTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'string') {
+  case 'string':
     return types.stringTypeAnnotation();
-  }
-  if (intermediateSchema.type === 'any') {
+  case 'any':
     return types.anyTypeAnnotation();
   }
-  throw new TypeError(`An unexpected type was found. type: ${String(intermediateSchema.type)}`);
+
+  throw new TypeError(`An unexpected type was found. type: ${String(schema.type)}`);
 }
 
 export default parse;
