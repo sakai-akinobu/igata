@@ -7,7 +7,7 @@ function parse(schema: IntermediateSchema): Object {
   return types.exportNamedDeclaration(
     types.typeAlias(
       types.identifier(schema.id),
-      null,
+      undefined,
       toFlowType(schema),
     ),
     [],
@@ -55,7 +55,7 @@ function toFlowType(schema: IntermediateSchema): Object {
         Object.assign(ast, {optional: true});
       }
       return ast;
-    }), null, null, null, !schema.additionalProperties);
+    }), undefined, undefined, undefined, !schema.additionalProperties);
   }
 
   switch (schema.type) {
