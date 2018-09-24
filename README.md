@@ -58,13 +58,34 @@ const jsonSchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    name: {
+    foo: {
       type: 'string',
     },
   },
 };
 convert(jsonSchema);
-// => export type ExactObject = {|\n  name?: string\n|};
+// => export type ExactObject = {|\n  foo?: string\n|};
+```
+
+Following example is a reference to a definition using `$ref`.
+
+```javascript
+const jsonSchema = {
+  $id: 'Definition',
+  $ref: '#/definitions/foo',
+  definitions: {
+    foo: {
+      type: 'object',
+      properties: {
+        bar: {
+          type: 'string',
+        },
+      },
+    },
+  },
+};
+convert(jsonSchema);
+// => export type Definition = {\n  bar?: string\n};
 ```
 
 ## Test
