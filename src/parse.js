@@ -1,7 +1,6 @@
 // @flow
 import type {IntermediateSchema} from './types';
-
-const types = require('@babel/types');
+import * as types from '@babel/types';
 
 function parse(schema: IntermediateSchema): Object {
   return types.exportNamedDeclaration(
