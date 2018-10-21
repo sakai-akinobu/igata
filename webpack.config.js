@@ -22,5 +22,7 @@ module.exports = {
     path: path.resolve(__dirname, 'lib'),
     library: 'Igata',
     libraryTarget: 'umd',
+    // see also: https://github.com/webpack/webpack/issues/6522
+    globalObject: '(typeof window !== "undefined" ? window : this)',
   },
 };
