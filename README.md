@@ -94,6 +94,10 @@ convert(jsonSchema);
 npm run test
 ```
 
+## Demo
+
+https://igata.netlify.com/
+
 ## License
 
 MIT license.
