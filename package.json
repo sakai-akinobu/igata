@@ -5,7 +5,6 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "$(npm bin)/webpack --config webpack.config.js",
-    "flow": "$(npm bin)/flow",
     "lint": "$(npm bin)/eslint src/*.js src/**/*.js",
     "lint:fix": "$(npm bin)/eslint --fix src/*.js src/**/*.js",
     "prepublish": "npm run build",
@@ -29,7 +28,6 @@
   "homepage": "https://github.com/sakai-akinobu/igata#readme",
   "pre-commit": [
     "lint",
-    "flow",
     "test"
   ],
   "devDependencies": {
