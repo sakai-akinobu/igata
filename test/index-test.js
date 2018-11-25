@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable max-nested-callbacks */
 import assert from 'assert';
 import {describe, it} from 'mocha';

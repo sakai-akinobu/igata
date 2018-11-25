@@ -1,5 +1,4 @@
-// @flow
-import type {
+import {
   JSONSchema,
   JSONSchemaType,
   JSONSchemaDefinition,
@@ -7,7 +6,7 @@ import type {
   IntermediateSchemaType,
 } from './types';
 
-function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
+function convertToFlowType(type: JSONSchemaType | undefined): IntermediateSchemaType {
   switch (type) {
   case 'null':
   case 'boolean':
@@ -23,7 +22,7 @@ function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
   }
 }
 
-function getDefinition(definitions: JSONSchemaDefinition, definitionKey: string): ?JSONSchema {
+function getDefinition(definitions: JSONSchemaDefinition, definitionKey: string): JSONSchema | undefined {
   return definitions[`${definitionKey.replace('#/definitions/', '')}`];
 }
 
