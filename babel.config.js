@@ -7,6 +7,7 @@ module.exports = {
       useBuiltIns: 'usage',
     }],
     '@babel/preset-flow',
+    '@babel/preset-typescript',
   ],
   env: {
     test: {
