@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es7",
+    ],
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+  ],
+}
