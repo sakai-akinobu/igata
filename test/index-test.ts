@@ -9,16 +9,16 @@ describe('convert', function() {
   describe('invalid argument', function() {
     const errorMessage = /Argument must be an object\./;
     it('boolean', function() {
-      assert.throws(() => convert(<any> true), errorMessage);
+      assert.throws(() => convert(true as any), errorMessage);
     });
     it('number', function() {
-      assert.throws(() => convert(<any> 1), errorMessage);
+      assert.throws(() => convert(1 as any), errorMessage);
     });
     it('string', function() {
-      assert.throws(() => convert(<any> 'a'), errorMessage);
+      assert.throws(() => convert('a' as any), errorMessage);
     });
     it('array', function() {
-      assert.throws(() => convert(<any> []), errorMessage);
+      assert.throws(() => convert([] as any), errorMessage);
     });
     it('null', function() {
       assert.throws(() => convert(null), errorMessage);
@@ -247,7 +247,7 @@ describe('convert', function() {
                         type: 'object',
                         properties: {
                           foo: {
-                            'type': 'string',
+                            type: 'string',
                           },
                         },
                       },
@@ -289,7 +289,7 @@ describe('convert', function() {
           '    },',
           '  |},',
           '};',
-        ].join('\n')
+        ].join('\n'),
       );
     });
   });
@@ -352,7 +352,7 @@ describe('convert', function() {
           '    }',
           '  },',
           '};',
-        ].join('\n')
+        ].join('\n'),
       );
     });
     it('nested definition', function() {

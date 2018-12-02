@@ -39,14 +39,16 @@ function compile(jsonSchema: JSONSchema, definitions: JSONSchemaDefinition = {})
     }, definitions);
   }
 
-  let types = [], type = null;
+  let types = [];
+  let type = null;
   if (Array.isArray(jsonSchema.type)) {
-    types = jsonSchema.type.map(type => convertToFlowType(type));
+    types = jsonSchema.type.map(t => convertToFlowType(t));
   } else {
     type = convertToFlowType(jsonSchema.type);
   }
 
-  let itemTypes = [], itemType = null;
+  let itemTypes = [];
+  let itemType = null;
   if (Array.isArray(jsonSchema.items)) {
     itemTypes = (jsonSchema.items || []).map(item => compile(item, definitions));
   } else if (typeof jsonSchema.items === 'object') {

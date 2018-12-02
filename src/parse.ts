@@ -14,11 +14,11 @@ function parse(schema: IntermediateSchema): types.ExportDeclaration {
 
 function toFlowType(schema: IntermediateSchema): types.FlowType {
   if (schema.anyOf.length) {
-    return types.unionTypeAnnotation(schema.anyOf.map(schema => toFlowType(schema)));
+    return types.unionTypeAnnotation(schema.anyOf.map(s => toFlowType(s)));
   }
   if (schema.oneOf.length) {
     // Since Flow can't express "oneOf" of JSON Schema, treat it as "Union".
-    return types.unionTypeAnnotation(schema.oneOf.map(schema => toFlowType(schema)));
+    return types.unionTypeAnnotation(schema.oneOf.map(s => toFlowType(s)));
   }
 
   if (schema.enum.length) {
@@ -48,7 +48,7 @@ function toFlowType(schema: IntermediateSchema): types.FlowType {
     return types.objectTypeAnnotation(Object.keys(schema.properties).map(key => {
       const ast = types.objectTypeProperty(
         types.identifier(key),
-        toFlowType(schema.properties[key])
+        toFlowType(schema.properties[key]),
       );
       if (!schema.required.includes(key)) {
         Object.assign(ast, {optional: true});

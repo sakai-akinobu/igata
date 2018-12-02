@@ -13,7 +13,7 @@ type Enum =
   | boolean
   | number
   | string
-  | Object
+  | object
   ;
 
 export type EnumType = Enum | Enum[];
@@ -23,19 +23,19 @@ export interface JSONSchemaDefinition {
 }
 
 export interface JSONSchema {
-  $id?: string,
-  $schema?: string,
-  $ref?: string,
-  definitions?: JSONSchemaDefinition,
-  type?: JSONSchemaType | JSONSchemaType[],
-  enum?: EnumType[],
-  items?: JSONSchema | JSONSchema[],
-  properties?: {[key: string]: JSONSchema},
-  required?: string[],
-  additionalProperties?: boolean,
-  anyOf?: JSONSchema[],
-  oneOf?: JSONSchema[],
-};
+  $id?: string;
+  $schema?: string;
+  $ref?: string;
+  definitions?: JSONSchemaDefinition;
+  type?: JSONSchemaType | JSONSchemaType[];
+  enum?: EnumType[];
+  items?: JSONSchema | JSONSchema[];
+  properties?: {[key: string]: JSONSchema};
+  required?: string[];
+  additionalProperties?: boolean;
+  anyOf?: JSONSchema[];
+  oneOf?: JSONSchema[];
+}
 
 export type IntermediateSchemaType =
   | 'any'
@@ -48,15 +48,15 @@ export type IntermediateSchemaType =
   ;
 
 export interface IntermediateSchema {
-  id: string,
-  type: IntermediateSchemaType | undefined,
-  types: IntermediateSchemaType[],
-  enum: EnumType[],
-  itemType: IntermediateSchema | undefined,
-  itemTypes: IntermediateSchema[],
-  properties: {[key: string]: IntermediateSchema},
-  required: string[],
-  additionalProperties: boolean,
-  anyOf: IntermediateSchema[],
-  oneOf: IntermediateSchema[],
+  id: string;
+  type: IntermediateSchemaType | undefined;
+  types: IntermediateSchemaType[];
+  enum: EnumType[];
+  itemType: IntermediateSchema | undefined;
+  itemTypes: IntermediateSchema[];
+  properties: {[key: string]: IntermediateSchema};
+  required: string[];
+  additionalProperties: boolean;
+  anyOf: IntermediateSchema[];
+  oneOf: IntermediateSchema[];
 }
