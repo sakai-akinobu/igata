@@ -5,8 +5,6 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "$(npm bin)/webpack --config webpack.config.js",
-    "lint": "$(npm bin)/eslint src/*.ts src/**/*.ts",
-    "lint:fix": "$(npm bin)/eslint --fix src/*.ts src/**/*.ts",
     "prepublish": "npm run build",
     "test": "NODE_ENV=test $(npm bin)/mocha --require @babel/register --recursive test/*-test.ts test/**/*-test.ts"
   },
@@ -27,7 +25,6 @@
   },
   "homepage": "https://github.com/sakai-akinobu/igata#readme",
   "pre-commit": [
-    "lint",
     "test"
   ],
   "devDependencies": {
@@ -40,8 +37,6 @@
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.4",
     "babel-preset-power-assert": "^3.0.0",
-    "eslint": "^5.6.0",
-    "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
     "power-assert": "^1.6.1",
     "pre-commit": "^1.2.2",
