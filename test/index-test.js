@@ -8,27 +8,21 @@ describe('convert', function() {
   describe('invalid argument', function() {
     const errorMessage = /Argument must be an object\./;
     it('boolean', function() {
-      // flow-disable-next-line
       assert.throws(() => convert(true), errorMessage);
     });
     it('number', function() {
-      // flow-disable-next-line
       assert.throws(() => convert(1), errorMessage);
     });
     it('string', function() {
-      // flow-disable-next-line
       assert.throws(() => convert('a'), errorMessage);
     });
     it('array', function() {
-      // flow-disable-next-line
       assert.throws(() => convert([]), errorMessage);
     });
     it('null', function() {
-      // flow-disable-next-line
       assert.throws(() => convert(null), errorMessage);
     });
     it('undefined', function() {
-      // flow-disable-next-line
       assert.throws(() => convert(), errorMessage);
     });
   });
