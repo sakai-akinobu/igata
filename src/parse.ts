@@ -1,7 +1,7 @@
 import {IntermediateSchema} from './types';
 import * as types from '@babel/types';
 
-function parse(schema: IntermediateSchema): Object {
+function parse(schema: IntermediateSchema): types.ExportDeclaration {
   return types.exportNamedDeclaration(
     types.typeAlias(
       types.identifier(schema.id),

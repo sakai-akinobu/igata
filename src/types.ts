@@ -22,7 +22,7 @@ export interface JSONSchemaDefinition {
   [key: string]: JSONSchema;
 }
 
-export type JSONSchema = {
+export interface JSONSchema {
   $id?: string,
   $schema?: string,
   $ref?: string,
