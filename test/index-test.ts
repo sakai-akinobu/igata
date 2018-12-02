@@ -1,5 +1,5 @@
 /* eslint-disable max-nested-callbacks */
-import assert from 'assert';
+import * as assert from 'power-assert';
 import {describe, it} from 'mocha';
 
 import {convert} from '../src/index';
