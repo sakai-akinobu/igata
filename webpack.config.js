@@ -6,12 +6,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js|ts$/,
-        exclude: /node_modules/,
+        test: /\.ts$/,
         use: {
-          loader: 'babel-loader',
+          loader: 'awesome-typescript-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            useBabel: true,
+            babelOptions: {
+              babelrc: false,
+              presets: [
+                '@babel/preset-env'
+              ],
+            },
+            babelCore: '@babel/core',
           },
         },
       },

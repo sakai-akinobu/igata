@@ -6,7 +6,6 @@ module.exports = {
       },
       useBuiltIns: 'usage',
     }],
-    '@babel/preset-typescript',
   ],
   env: {
     test: {
