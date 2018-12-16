@@ -1,5 +1,4 @@
-// @flow
-import type {
+import {
   JSONSchema,
   JSONSchemaType,
   JSONSchemaDefinition,
@@ -7,7 +6,7 @@ import type {
   IntermediateSchemaType,
 } from './types';
 
-function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
+function convertToFlowType(type: JSONSchemaType | undefined): IntermediateSchemaType {
   switch (type) {
   case 'null':
   case 'boolean':
@@ -23,7 +22,7 @@ function convertToFlowType(type: ?JSONSchemaType): IntermediateSchemaType {
   }
 }
 
-function getDefinition(definitions: JSONSchemaDefinition, definitionKey: string): ?JSONSchema {
+function getDefinition(definitions: JSONSchemaDefinition, definitionKey: string): JSONSchema | undefined {
   return definitions[`${definitionKey.replace('#/definitions/', '')}`];
 }
 
@@ -40,14 +39,16 @@ function compile(jsonSchema: JSONSchema, definitions: JSONSchemaDefinition = {})
     }, definitions);
   }
 
-  let types = [], type = null;
+  let types = [];
+  let type = null;
   if (Array.isArray(jsonSchema.type)) {
-    types = jsonSchema.type.map(type => convertToFlowType(type));
+    types = jsonSchema.type.map(t => convertToFlowType(t));
   } else {
     type = convertToFlowType(jsonSchema.type);
   }
 
-  let itemTypes = [], itemType = null;
+  let itemTypes = [];
+  let itemType = null;
   if (Array.isArray(jsonSchema.items)) {
     itemTypes = (jsonSchema.items || []).map(item => compile(item, definitions));
   } else if (typeof jsonSchema.items === 'object') {

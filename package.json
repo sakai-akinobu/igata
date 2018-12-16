@@ -1,15 +1,15 @@
 {
   "name": "igata",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Converts a JSON Schema to Flow type definition",
   "main": "lib/index.js",
   "scripts": {
+    "compile": "$(npm bin)/tsc -p tsconfig.json --noEmit",
+    "lint": "$(npm bin)/tslint src/**/*.ts test/**/*.ts",
+    "lint:fix": "$(npm bin)/tslint --fix src/**/*.ts test/**/*.ts",
     "build": "$(npm bin)/webpack --config webpack.config.js",
-    "flow": "$(npm bin)/flow",
-    "lint": "$(npm bin)/eslint src/*.js src/**/*.js",
-    "lint:fix": "$(npm bin)/eslint --fix src/*.js src/**/*.js",
     "prepublish": "npm run build",
-    "test": "NODE_ENV=test $(npm bin)/mocha --require @babel/register --recursive test/*-test.js test/**/*-test.js"
+    "test": "NODE_ENV=test $(npm bin)/mocha --require ts-node/register --recursive test/*-test.ts test/**/*-test.ts"
   },
   "repository": {
     "type": "git",
@@ -29,25 +29,25 @@
   "homepage": "https://github.com/sakai-akinobu/igata#readme",
   "pre-commit": [
     "lint",
-    "flow",
+    "compile",
     "test"
   ],
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.1.2",
-    "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
-    "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "babel-eslint": "^9.0.0",
-    "babel-loader": "^8.0.4",
+    "@types/babel__generator": "^7.0.1",
+    "@types/mocha": "^5.2.5",
+    "@types/power-assert": "^1.5.0",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-preset-power-assert": "^3.0.0",
-    "eslint": "^5.6.0",
-    "eslint-plugin-import": "^2.14.0",
-    "flow-bin": "^0.81.0",
     "mocha": "^5.2.0",
     "power-assert": "^1.6.1",
     "pre-commit": "^1.2.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.2.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
   },

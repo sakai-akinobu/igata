@@ -2,20 +2,29 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/index.ts',
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
+        test: /\.ts$/,
         use: {
-          loader: 'babel-loader',
+          loader: 'awesome-typescript-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            useBabel: true,
+            babelOptions: {
+              babelrc: false,
+              presets: [
+                '@babel/preset-env'
+              ],
+            },
+            babelCore: '@babel/core',
           },
         },
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.ts'],
   },
   output: {
     filename: 'index.js',

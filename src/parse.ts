@@ -1,8 +1,7 @@
-// @flow
-import type {IntermediateSchema} from './types';
+import {IntermediateSchema} from './types';
 import * as types from '@babel/types';
 
-function parse(schema: IntermediateSchema): Object {
+function parse(schema: IntermediateSchema): types.ExportDeclaration {
   return types.exportNamedDeclaration(
     types.typeAlias(
       types.identifier(schema.id),
@@ -13,13 +12,13 @@ function parse(schema: IntermediateSchema): Object {
   );
 }
 
-function toFlowType(schema: IntermediateSchema): Object {
+function toFlowType(schema: IntermediateSchema): types.FlowType {
   if (schema.anyOf.length) {
-    return types.unionTypeAnnotation(schema.anyOf.map(schema => toFlowType(schema)));
+    return types.unionTypeAnnotation(schema.anyOf.map(s => toFlowType(s)));
   }
   if (schema.oneOf.length) {
     // Since Flow can't express "oneOf" of JSON Schema, treat it as "Union".
-    return types.unionTypeAnnotation(schema.oneOf.map(schema => toFlowType(schema)));
+    return types.unionTypeAnnotation(schema.oneOf.map(s => toFlowType(s)));
   }
 
   if (schema.enum.length) {
@@ -49,7 +48,7 @@ function toFlowType(schema: IntermediateSchema): Object {
     return types.objectTypeAnnotation(Object.keys(schema.properties).map(key => {
       const ast = types.objectTypeProperty(
         types.identifier(key),
-        toFlowType(schema.properties[key])
+        toFlowType(schema.properties[key]),
       );
       if (!schema.required.includes(key)) {
         Object.assign(ast, {optional: true});
