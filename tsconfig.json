@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es7",
-    ],
+    "target": "ESNext",
+    "moduleResolution": "Node",
   },
   "include": [
     "src/**/*",
