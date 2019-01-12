@@ -4,12 +4,12 @@
   "description": "Converts a JSON Schema to Flow type definition",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "$(npm bin)/tsc --noEmit",
     "lint": "$(npm bin)/tslint src/**/*.ts test/**/*.ts",
     "lint:fix": "$(npm bin)/tslint --fix src/**/*.ts test/**/*.ts",
-    "build": "$(npm bin)/webpack --config webpack.config.js",
+    "compile": "$(npm bin)/tsc --noEmit",
+    "test": "NODE_ENV=test $(npm bin)/mocha --require ts-node/register --require espower-typescript/guess --recursive test/*-test.ts test/**/*-test.ts",
     "prepublish": "npm run build",
-    "test": "NODE_ENV=test $(npm bin)/mocha --require ts-node/register --require espower-typescript/guess --recursive test/*-test.ts test/**/*-test.ts"
+    "build": "$(npm bin)/webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
