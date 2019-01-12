@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "moduleResolution": "Node",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "es2018",
+    ],
   },
   "include": [
     "src/**/*",
