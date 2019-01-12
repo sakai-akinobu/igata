@@ -4,7 +4,7 @@
   "description": "Converts a JSON Schema to Flow type definition",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "$(npm bin)/tsc -p tsconfig.json --noEmit",
+    "compile": "$(npm bin)/tsc --noEmit",
     "lint": "$(npm bin)/tslint src/**/*.ts test/**/*.ts",
     "lint:fix": "$(npm bin)/tslint --fix src/**/*.ts test/**/*.ts",
     "build": "$(npm bin)/webpack --config webpack.config.js",
