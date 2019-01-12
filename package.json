@@ -9,7 +9,7 @@
     "lint:fix": "$(npm bin)/tslint --fix src/**/*.ts test/**/*.ts",
     "build": "$(npm bin)/webpack --config webpack.config.js",
     "prepublish": "npm run build",
-    "test": "NODE_ENV=test $(npm bin)/mocha --require ts-node/register --recursive test/*-test.ts test/**/*-test.ts"
+    "test": "NODE_ENV=test $(npm bin)/mocha --require ts-node/register --require espower-typescript/guess --recursive test/*-test.ts test/**/*-test.ts"
   },
   "repository": {
     "type": "git",
