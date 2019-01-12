@@ -3,6 +3,7 @@
   "version": "1.3.4",
   "description": "Converts a JSON Schema to Flow type definition",
   "main": "lib/index.js",
+  "types": "lib/types/src/index.d.ts",
   "scripts": {
     "lint": "$(npm bin)/tslint src/**/*.ts test/**/*.ts",
     "lint:fix": "$(npm bin)/tslint --fix src/**/*.ts test/**/*.ts",
