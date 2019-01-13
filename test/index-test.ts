@@ -20,10 +20,10 @@ describe('convert', function() {
       assert.throws(() => convert([] as any), errorMessage);
     });
     it('null', function() {
-      assert.throws(() => convert(null), errorMessage);
+      assert.throws(() => convert(null as any), errorMessage);
     });
     it('undefined', function() {
-      assert.throws(() => convert(undefined), errorMessage);
+      assert.throws(() => convert(undefined as any), errorMessage);
     });
   });
   describe('id', function() {
