@@ -39,23 +39,23 @@ function compile(jsonSchema: JSONSchema, definitions: JSONSchemaDefinition = {})
     }, definitions);
   }
 
-  let types = [];
-  let type = null;
+  let types: IntermediateSchemaType[] = [];
+  let type: IntermediateSchemaType | undefined;
   if (Array.isArray(jsonSchema.type)) {
     types = jsonSchema.type.map(t => convertToFlowType(t));
   } else {
     type = convertToFlowType(jsonSchema.type);
   }
 
-  let itemTypes = [];
-  let itemType = null;
+  let itemTypes: IntermediateSchema[] = [];
+  let itemType: IntermediateSchema | undefined;
   if (Array.isArray(jsonSchema.items)) {
     itemTypes = (jsonSchema.items || []).map(item => compile(item, definitions));
   } else if (typeof jsonSchema.items === 'object') {
     itemType = compile(jsonSchema.items, definitions);
   }
 
-  const properties = Object.keys((jsonSchema.properties || {})).reduce((props, key) => {
+  const properties = Object.keys((jsonSchema.properties || {})).reduce<{[key: string]: IntermediateSchema}>((props, key) => {
     props[key] = compile((jsonSchema.properties || {})[key], definitions);
     return props;
   }, {});
